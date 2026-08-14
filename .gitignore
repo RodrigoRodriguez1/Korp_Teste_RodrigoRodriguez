@@ -1,0 +1,53 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.log
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json
+!appsettings.Production.json
+
+# EF Core migrations lock
+*.db
+*.db-shm
+*.db-wal
+
+# NuGet
+.nuget/
+packages/
+*.nupkg
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environments Angular
+src/frontend/src/environments/environment.development.ts
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/settings.json
+*.swp
+*.swo
+
+# Docker volumes
+pgdata/
+
+# Secrets
+.env
+.env.local
+*.pem
+*.key
