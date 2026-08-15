@@ -1,0 +1,57 @@
+.shell-container {
+  height: 100vh;
+  display: flex;
+}
+
+.shell-sidenav {
+  width: 240px;
+  border-right: 1px solid var(--mat-sys-outline-variant);
+
+  .sidenav-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 16px 12px;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+    .brand-icon {
+      color: var(--mat-sys-primary);
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+
+    .brand-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--mat-sys-on-surface);
+    }
+  }
+
+  .active-link {
+    background-color: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+    border-radius: 28px;
+
+    mat-icon {
+      color: var(--mat-sys-on-secondary-container);
+    }
+  }
+}
+
+.shell-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  .toolbar-title {
+    margin-left: 8px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.shell-content {
+  padding: 24px;
+  max-width: 1200px;
+}

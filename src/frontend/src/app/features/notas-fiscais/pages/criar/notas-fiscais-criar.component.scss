@@ -1,0 +1,53 @@
+.page-header {
+  margin-bottom: 24px;
+
+  .page-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .page-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+.form-card {
+  max-width: 720px;
+}
+
+.item-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px 0;
+
+  .produto-field {
+    flex: 1;
+  }
+
+  .quantidade-field {
+    width: 140px;
+  }
+}
+
+.item-divider {
+  margin: 0 0 8px;
+}
+
+.saldo-hint {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.add-item-btn {
+  margin-top: 8px;
+}
+
+.btn-spinner {
+  display: inline-block;
+  margin-right: 8px;
+}

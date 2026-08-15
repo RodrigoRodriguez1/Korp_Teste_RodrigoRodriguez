@@ -1,0 +1,84 @@
+<div class="page-header">
+  <div class="page-header-left">
+    <a mat-icon-button routerLink="/notas-fiscais" aria-label="Voltar">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1 class="page-title">
+      @if (nota()) {
+        Nota Fiscal {{ nota()!.numero ? '#' + nota()!.numero : '(em aberto)' }}
+      } @else {
+        Nota Fiscal
+      }
+    </h1>
+  </div>
+
+  @if (nota()?.status === 'Aberta') {
+    <button mat-flat-button color="primary" (click)="abrirDialogImprimir()">
+      <mat-icon>print</mat-icon>
+      Imprimir / Fechar
+    </button>
+  }
+</div>
+
+@if (loading()) {
+  <div class="loading-container">
+    <mat-spinner diameter="48" />
+  </div>
+} @else if (nota(); as nota) {
+  <div class="detail-grid">
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>Informações</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <mat-chip [class]="nota.status === 'Fechada' ? 'chip-fechada' : 'chip-aberta'">
+            {{ nota.status }}
+          </mat-chip>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Número</span>
+          <span>{{ nota.numero || '—' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Criada em</span>
+          <span>{{ nota.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        @if (nota.impressoEm) {
+          <div class="info-row">
+            <span class="info-label">Impressa em</span>
+            <span>{{ nota.impressoEm | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="items-card">
+      <mat-card-header>
+        <mat-card-title>Itens ({{ nota.itens.length }})</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="nota.itens">
+          <ng-container matColumnDef="codigo">
+            <th mat-header-cell *matHeaderCellDef>Código</th>
+            <td mat-cell *matCellDef="let item">{{ item.produtoCodigo }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="descricao">
+            <th mat-header-cell *matHeaderCellDef>Descrição</th>
+            <td mat-cell *matCellDef="let item">{{ item.produtoDescricao }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="quantidade">
+            <th mat-header-cell *matHeaderCellDef>Qtd</th>
+            <td mat-cell *matCellDef="let item">{{ item.quantidade }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+}

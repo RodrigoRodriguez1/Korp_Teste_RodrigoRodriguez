@@ -1,0 +1,41 @@
+.page-header {
+  margin-bottom: 24px;
+
+  .page-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .page-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0;
+}
+
+.form-card {
+  max-width: 480px;
+}
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.btn-spinner {
+  display: inline-block;
+  margin-right: 8px;
+}

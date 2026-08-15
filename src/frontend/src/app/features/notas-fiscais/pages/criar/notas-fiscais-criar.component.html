@@ -1,0 +1,85 @@
+<div class="page-header">
+  <div class="page-header-left">
+    <a mat-icon-button routerLink="/notas-fiscais" aria-label="Voltar">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1 class="page-title">Nova Nota Fiscal</h1>
+  </div>
+</div>
+
+<mat-card class="form-card">
+  <mat-card-header>
+    <mat-card-title>Itens da Nota</mat-card-title>
+    <mat-card-subtitle>Adicione os produtos que compõem esta nota fiscal</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="form">
+      <div formArrayName="itens">
+        @for (item of itens.controls; track $index) {
+          <div class="item-row" [formGroupName]="$index">
+            <mat-form-field appearance="outline" class="produto-field">
+              <mat-label>Produto</mat-label>
+              <mat-select formControlName="produtoId">
+                @for (produto of produtos(); track produto.id) {
+                  <mat-option [value]="produto.id">
+                    {{ produto.codigo }} — {{ produto.descricao }}
+                    <span class="saldo-hint">(saldo: {{ produto.saldo }})</span>
+                  </mat-option>
+                }
+              </mat-select>
+              @if (item.get('produtoId')?.invalid && item.get('produtoId')?.touched) {
+                <mat-error>Selecione um produto</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="quantidade-field">
+              <mat-label>Quantidade</mat-label>
+              <input matInput type="number" formControlName="quantidade" min="1" />
+              @if (item.get('quantidade')?.invalid && item.get('quantidade')?.touched) {
+                <mat-error>Quantidade mínima: 1</mat-error>
+              }
+            </mat-form-field>
+
+            <button
+              mat-icon-button
+              color="warn"
+              type="button"
+              (click)="removerItem($index)"
+              [disabled]="itens.length === 1"
+              aria-label="Remover item"
+            >
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+
+          @if (!$last) {
+            <mat-divider class="item-divider" />
+          }
+        }
+      </div>
+
+      <button mat-stroked-button type="button" (click)="adicionarItem()" class="add-item-btn">
+        <mat-icon>add</mat-icon>
+        Adicionar Item
+      </button>
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <a mat-button routerLink="/notas-fiscais">Cancelar</a>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="salvar()"
+      [disabled]="salvando()"
+    >
+      @if (salvando()) {
+        <mat-spinner diameter="18" class="btn-spinner" />
+        Salvando...
+      } @else {
+        Criar Nota Fiscal
+      }
+    </button>
+  </mat-card-actions>
+</mat-card>

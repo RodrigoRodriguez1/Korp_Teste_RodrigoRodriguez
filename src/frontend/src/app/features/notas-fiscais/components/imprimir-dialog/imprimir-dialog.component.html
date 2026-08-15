@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Imprimir Nota Fiscal</h2>
+
+<mat-dialog-content>
+  <p class="dialog-desc">
+    Esta ação fechará a nota fiscal e descontará o saldo dos produtos no estoque.
+    A operação é <strong>irreversível</strong>.
+  </p>
+
+  <form [formGroup]="form" class="dialog-form">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Chave de Idempotência</mat-label>
+      <input matInput formControlName="idempotencyKey" />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="regenerarChave()"
+        matTooltip="Gerar nova chave"
+        aria-label="Regenerar chave"
+      >
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <mat-hint>Reutilize a mesma chave para reenvios seguros</mat-hint>
+      @if (form.get('idempotencyKey')?.invalid && form.get('idempotencyKey')?.touched) {
+        <mat-error>Chave obrigatória (máx. 128 caracteres)</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()" [disabled]="imprimindo()">Cancelar</button>
+  <button mat-flat-button color="primary" (click)="confirmar()" [disabled]="imprimindo()">
+    @if (imprimindo()) {
+      <mat-spinner diameter="18" class="btn-spinner" />
+      Imprimindo...
+    } @else {
+      <ng-container>
+        <mat-icon>print</mat-icon>
+        Confirmar Impressão
+      </ng-container>
+    }
+  </button>
+</mat-dialog-actions>

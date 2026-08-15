@@ -1,0 +1,59 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 64px 0;
+  color: var(--mat-sys-on-surface-variant);
+
+  .empty-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    opacity: 0.4;
+  }
+
+  p { margin: 0; font-size: 16px; }
+}
+
+.table-card {
+  background: var(--mat-sys-surface-container-low);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-row:hover {
+  background: var(--mat-sys-surface-container);
+}
+
+.acoes-cell {
+  white-space: nowrap;
+}
+
+.saldo-zero {
+  color: var(--mat-sys-error);
+  font-weight: 600;
+}
+
+.saldo-ok {
+  color: var(--mat-sys-on-surface);
+}

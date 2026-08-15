@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: korp-estoque-api
+    runtime: docker
+    dockerfilePath: src/backend/Korp.Estoque/Dockerfile
+    dockerContext: src/backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: AllowedOrigins__0
+        value: https://korp-teste-rodrigo.pages.dev
+      - key: AllowedOrigins__1
+        value: https://portfolio-rodrigo-rodriguez.vercel.app
+
+  - type: web
+    name: korp-faturamento-api
+    runtime: docker
+    dockerfilePath: src/backend/Korp.Faturamento/Dockerfile
+    dockerContext: src/backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: EstoqueService__BaseUrl
+        sync: false
+      - key: AllowedOrigins__0
+        value: https://korp-teste-rodrigo.pages.dev
+      - key: AllowedOrigins__1
+        value: https://portfolio-rodrigo-rodriguez.vercel.app
