@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Korp.Faturamento.Infrastructure.Migrations
 {
     [DbContext(typeof(FaturamentoDbContext))]
-    [Migration("20260815010145_InitialCreate")]
+    [Migration("20260817154103_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Korp.Faturamento.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("faturamento")
+                .HasDefaultSchema("korp_faturamento")
                 .HasAnnotation("ProductVersion", "9.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -64,7 +64,7 @@ namespace Korp.Faturamento.Infrastructure.Migrations
 
                     b.HasIndex("nota_fiscal_id");
 
-                    b.ToTable("itens_nota", "faturamento", t =>
+                    b.ToTable("itens_nota", "korp_faturamento", t =>
                         {
                             t.HasCheckConstraint("chk_itens_nota_quantidade", "quantidade > 0");
                         });
@@ -103,7 +103,7 @@ namespace Korp.Faturamento.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("idx_notas_fiscais_numero");
 
-                    b.ToTable("notas_fiscais", "faturamento");
+                    b.ToTable("notas_fiscais", "korp_faturamento");
                 });
 
             modelBuilder.Entity("Korp.Faturamento.Infrastructure.Idempotency.IdempotencyKey", b =>
@@ -124,7 +124,7 @@ namespace Korp.Faturamento.Infrastructure.Migrations
 
                     b.HasKey("Key");
 
-                    b.ToTable("idempotency_keys", "faturamento");
+                    b.ToTable("idempotency_keys", "korp_faturamento");
                 });
 
             modelBuilder.Entity("Korp.Faturamento.Domain.Entities.ItemNota", b =>

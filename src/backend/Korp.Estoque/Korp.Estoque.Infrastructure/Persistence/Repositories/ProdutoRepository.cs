@@ -38,7 +38,7 @@ internal sealed class ProdutoRepository : IProdutoRepository
         // FOR UPDATE garante lock pessimista — previne race condition no desconto de saldo
         return await _context.Produtos
             .FromSqlRaw(
-                $"SELECT * FROM estoque.produtos WHERE id = ANY(@p0) FOR UPDATE",
+                $"SELECT * FROM korp_estoque.produtos WHERE id = ANY(@p0) FOR UPDATE",
                 new Npgsql.NpgsqlParameter("p0", idList.ToArray()))
             .ToListAsync(cancellationToken);
     }

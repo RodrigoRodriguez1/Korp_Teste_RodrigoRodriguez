@@ -25,6 +25,14 @@ internal sealed class NotaFiscalRepository : INotaFiscalRepository
             .Include(n => n.Itens)
             .FirstOrDefaultAsync(n => n.Id == id, cancellationToken);
 
+    public async Task<int> GetNextNumeroAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await _context.Database
+            .SqlQueryRaw<long>("SELECT nextval('korp_faturamento.nota_fiscal_numero_seq') AS \"Value\"")
+            .FirstAsync(cancellationToken);
+        return (int)result;
+    }
+
     public async Task AddAsync(NotaFiscal nota, CancellationToken cancellationToken = default) =>
         await _context.NotasFiscais.AddAsync(nota, cancellationToken);
 

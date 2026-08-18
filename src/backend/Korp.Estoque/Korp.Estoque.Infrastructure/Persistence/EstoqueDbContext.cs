@@ -11,7 +11,7 @@ public sealed class EstoqueDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("estoque");
+        modelBuilder.HasDefaultSchema("korp_estoque");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(EstoqueDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }

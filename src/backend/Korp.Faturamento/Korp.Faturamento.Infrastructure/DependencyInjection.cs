@@ -21,7 +21,7 @@ public static class DependencyInjection
         services.AddDbContext<FaturamentoDbContext>(options =>
             options.UseNpgsql(
                 configuration.GetConnectionString("DefaultConnection"),
-                npgsql => npgsql.MigrationsHistoryTable("__ef_migrations_history", "faturamento")));
+                npgsql => npgsql.MigrationsHistoryTable("__ef_migrations_history", "korp_faturamento")));
 
         services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
         services.AddScoped<IIdempotencyService, IdempotencyService>();

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Korp.Estoque.Infrastructure.Migrations
 {
     [DbContext(typeof(EstoqueDbContext))]
-    [Migration("20260815004554_InitialCreate")]
+    [Migration("20260817154052_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Korp.Estoque.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("estoque")
+                .HasDefaultSchema("korp_estoque")
                 .HasAnnotation("ProductVersion", "9.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -63,7 +63,7 @@ namespace Korp.Estoque.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("idx_produtos_codigo");
 
-                    b.ToTable("produtos", "estoque", t =>
+                    b.ToTable("produtos", "korp_estoque", t =>
                         {
                             t.HasCheckConstraint("chk_produtos_saldo", "saldo >= 0");
                         });

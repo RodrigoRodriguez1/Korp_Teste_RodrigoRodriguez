@@ -12,11 +12,11 @@ namespace Korp.Faturamento.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "faturamento");
+                name: "korp_faturamento");
 
             migrationBuilder.CreateTable(
                 name: "idempotency_keys",
-                schema: "faturamento",
+                schema: "korp_faturamento",
                 columns: table => new
                 {
                     key = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
@@ -30,7 +30,7 @@ namespace Korp.Faturamento.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "notas_fiscais",
-                schema: "faturamento",
+                schema: "korp_faturamento",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -47,7 +47,7 @@ namespace Korp.Faturamento.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "itens_nota",
-                schema: "faturamento",
+                schema: "korp_faturamento",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -65,7 +65,7 @@ namespace Korp.Faturamento.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_itens_nota_notas_fiscais_nota_fiscal_id",
                         column: x => x.nota_fiscal_id,
-                        principalSchema: "faturamento",
+                        principalSchema: "korp_faturamento",
                         principalTable: "notas_fiscais",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -73,13 +73,13 @@ namespace Korp.Faturamento.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_itens_nota_nota_fiscal_id",
-                schema: "faturamento",
+                schema: "korp_faturamento",
                 table: "itens_nota",
                 column: "nota_fiscal_id");
 
             migrationBuilder.CreateIndex(
                 name: "idx_notas_fiscais_numero",
-                schema: "faturamento",
+                schema: "korp_faturamento",
                 table: "notas_fiscais",
                 column: "numero",
                 unique: true);
@@ -90,15 +90,15 @@ namespace Korp.Faturamento.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "idempotency_keys",
-                schema: "faturamento");
+                schema: "korp_faturamento");
 
             migrationBuilder.DropTable(
                 name: "itens_nota",
-                schema: "faturamento");
+                schema: "korp_faturamento");
 
             migrationBuilder.DropTable(
                 name: "notas_fiscais",
-                schema: "faturamento");
+                schema: "korp_faturamento");
         }
     }
 }

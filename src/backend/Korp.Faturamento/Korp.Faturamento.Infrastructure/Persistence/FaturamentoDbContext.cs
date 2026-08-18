@@ -14,7 +14,7 @@ public sealed class FaturamentoDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("faturamento");
+        modelBuilder.HasDefaultSchema("korp_faturamento");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(FaturamentoDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }

@@ -12,11 +12,11 @@ namespace Korp.Estoque.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "estoque");
+                name: "korp_estoque");
 
             migrationBuilder.CreateTable(
                 name: "produtos",
-                schema: "estoque",
+                schema: "korp_estoque",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -34,7 +34,7 @@ namespace Korp.Estoque.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "idx_produtos_codigo",
-                schema: "estoque",
+                schema: "korp_estoque",
                 table: "produtos",
                 column: "codigo",
                 unique: true);
@@ -45,7 +45,7 @@ namespace Korp.Estoque.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "produtos",
-                schema: "estoque");
+                schema: "korp_estoque");
         }
     }
 }

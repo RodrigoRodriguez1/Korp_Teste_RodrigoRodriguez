@@ -16,7 +16,7 @@ public static class DependencyInjection
         services.AddDbContext<EstoqueDbContext>(options =>
             options.UseNpgsql(
                 configuration.GetConnectionString("DefaultConnection"),
-                npgsql => npgsql.MigrationsHistoryTable("__ef_migrations_history", "estoque")));
+                npgsql => npgsql.MigrationsHistoryTable("__ef_migrations_history", "korp_estoque")));
 
         services.AddScoped<IProdutoRepository, ProdutoRepository>();
 

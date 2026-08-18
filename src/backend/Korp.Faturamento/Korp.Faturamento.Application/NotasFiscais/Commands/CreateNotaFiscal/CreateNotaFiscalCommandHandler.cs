@@ -20,7 +20,10 @@ internal sealed class CreateNotaFiscalCommandHandler
         CreateNotaFiscalCommand request,
         CancellationToken cancellationToken)
     {
+        var numero = await _repository.GetNextNumeroAsync(cancellationToken);
+
         var nota = NotaFiscal.Create();
+        nota.SetNumero(numero);
 
         foreach (var item in request.Itens)
             nota.AdicionarItem(item.ProdutoId, item.ProdutoCodigo, item.ProdutoDescricao, item.Quantidade);
