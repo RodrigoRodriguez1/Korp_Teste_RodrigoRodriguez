@@ -5,6 +5,8 @@ WORKDIR /src
 COPY Korp.SharedKernel/ Korp.SharedKernel/
 COPY Korp.Faturamento/ Korp.Faturamento/
 
+RUN dotnet restore Korp.Faturamento/Korp.Faturamento.API/Korp.Faturamento.API.csproj
+
 RUN dotnet publish Korp.Faturamento/Korp.Faturamento.API/Korp.Faturamento.API.csproj \
     -c Release \
     -o /app/publish \

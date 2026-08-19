@@ -5,6 +5,8 @@ WORKDIR /src
 COPY Korp.SharedKernel/ Korp.SharedKernel/
 COPY Korp.Estoque/ Korp.Estoque/
 
+RUN dotnet restore Korp.Estoque/Korp.Estoque.API/Korp.Estoque.API.csproj
+
 RUN dotnet publish Korp.Estoque/Korp.Estoque.API/Korp.Estoque.API.csproj \
     -c Release \
     -o /app/publish \
