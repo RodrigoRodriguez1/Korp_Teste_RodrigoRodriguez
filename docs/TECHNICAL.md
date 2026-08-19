@@ -8,13 +8,13 @@ Respostas às perguntas do desafio técnico.
 
 | Hook | Onde | Para quê |
 |------|------|----------|
-| `ngOnInit` | Todos os componentes com dados | Carregar dados da API ao montar o componente |
-| `ngOnDestroy` | Componentes com subscriptions | Cancelar observables (via `takeUntilDestroyed`) |
-| `ngAfterViewInit` | Componente de detalhe da NF | Aguardar a view estar pronta para acionar scroll |
+| `ngOnInit` | `ProdutosListaComponent`, `ProdutoFormComponent`, `NotasFiscaisListaComponent`, `NotasFiscaisDetalheComponent`, `NotasFiscaisCriarComponent` | Disparar carregamento de dados da API assim que o componente é montado |
 
-O projeto usa **Angular 21 Standalone Components** com a função `takeUntilDestroyed(this.destroyRef)`, que é a forma moderna de cancelar observables sem implementar `ngOnDestroy` manualmente.
+O projeto usa **Angular 21 Standalone Components**. O ciclo de vida é complementado por duas APIs modernas do Angular que substituem padrões antigos:
 
-**Signals** são usados para estado local reativo nos componentes (lista de produtos selecionados na criação de NF, estado de loading, etc.), evitando `ngOnChanges` e `ngDoCheck`.
+- **`input()`** (signal-based input) — em vez de `@Input()`, usado em `NotasFiscaisDetalheComponent` para receber o `id` da rota: `readonly id = input.required<string>()`
+- **`signal()`** — estado local reativo (loading, lista de itens, nota carregada) em todos os componentes de feature, sem necessidade de `ngOnChanges` ou `ChangeDetectorRef`
+- **`toSignal()`** — converte um `Observable` em `Signal` no `ShellComponent` para observar breakpoints de responsividade
 
 ---
 
@@ -24,29 +24,33 @@ Sim, RxJS é usado extensivamente nos serviços HTTP e na comunicação entre co
 
 ### Nos serviços
 
+Os serviços (`ProdutoService`, `NotaFiscalService`) retornam `Observable<T>` diretamente do `HttpClient` sem transformação adicional. Os componentes fazem `.subscribe()` e atualizam signals:
+
 ```typescript
-// EstoqueService
-getProdutos(): Observable<Produto[]> {
-  return this.http.get<Produto[]>(`${this.baseUrl}/produtos`).pipe(
-    catchError(this.handleError)
-  );
+// ProdutoService
+getAll(): Observable<Produto[]> {
+  return this.http.get<Produto[]>(this.baseUrl);
 }
+
+// No componente
+this.service.getAll().subscribe({
+  next: (data) => this.produtos.set(data),
+  complete: () => this.loading.set(false),
+});
 ```
 
 ### Operadores utilizados
 
 | Operador | Onde | Para quê |
 |----------|------|----------|
-| `catchError` | Todos os serviços HTTP | Transformar erros HTTP em mensagens amigáveis |
-| `finalize` | Chamadas com loading spinner | Garantir que o spinner para mesmo em caso de erro |
-| `map` | Queries de transformação | Mapear resposta da API para o modelo do componente |
-| `switchMap` | Criação de NF | Cancelar request anterior se o usuário alterar dados |
-| `takeUntilDestroyed` | Subscriptions em componentes | Cancelar ao destruir o componente (evita memory leak) |
-| `forkJoin` | Carregamento inicial | Carregar produtos e NFs em paralelo |
+| `catchError` | `error.interceptor.ts` (global) | Intercepta todos os erros HTTP e exibe `MatSnackBar` com a mensagem do `ProblemDetails` |
+| `throwError` | `error.interceptor.ts` | Repropaga o erro após exibir a notificação |
+| `map` | `shell.component.ts` | Mapeia resultado do `BreakpointObserver` para boolean de responsividade |
+| `toSignal` | `shell.component.ts` | Converte Observable do breakpoint em Signal para uso no template |
 
-### No template
+### Interceptor global de erros
 
-Usado com `AsyncPipe` (`| async`) para que o Angular gerencie automaticamente subscribe/unsubscribe.
+O `errorInterceptor` é registrado no `app.config.ts` e trata centralizadamente todos os erros HTTP, diferenciando 503 (Estoque offline), 4xx (validação/negócio) e 5xx (erro interno), exibindo mensagens do campo `detail` do ProblemDetails:
 
 ---
 
@@ -76,18 +80,18 @@ Usado com `AsyncPipe` (`| async`) para que o Angular gerencie automaticamente su
 
 | Componente | Onde utilizado |
 |-----------|---------------|
-| `mat-toolbar` | Navbar de navegação global |
-| `mat-table` + `mat-sort` | Lista de produtos e lista de NFs |
-| `mat-paginator` | Paginação nas listas |
-| `mat-form-field` + `mat-input` | Formulário de produto, busca |
-| `mat-select` | Seleção de produto na criação de NF |
-| `mat-button` / `mat-icon-button` | Ações (criar, editar, excluir, imprimir) |
-| `mat-dialog` | Confirmação de exclusão |
-| `mat-snack-bar` | Feedback de sucesso e erro |
-| `mat-spinner` (progress-spinner) | Loading durante chamadas HTTP |
-| `mat-chip` / `mat-badge` | Status da NF (Aberta = verde / Fechada = cinza) |
-| `mat-card` | Container das telas de detalhe |
-| `mat-stepper` | Fluxo de criação de NF em etapas |
+| `MatToolbar` | Navbar de navegação global (`ShellComponent`) |
+| `MatTable` | Lista de produtos e lista de NFs |
+| `MatButton` / `MatIconButton` | Ações (criar, editar, excluir, imprimir) |
+| `MatFormField` + `MatInput` | Formulários de produto e criação de NF |
+| `MatSelect` | Seleção de produto na tela de criar NF |
+| `MatDialog` | `ConfirmDialogComponent` (exclusão) e `ImprimirDialogComponent` (impressão com spinner) |
+| `MatSnackBar` | Feedback global de sucesso e erro (via interceptor e componentes) |
+| `MatProgressSpinner` | Indicador de carregamento e processamento da impressão |
+| `MatChips` | Badge de status da NF (`Aberta` = verde / `Fechada` = cinza) |
+| `MatCard` | Container do detalhe da NF |
+| `MatTooltip` | Dicas nos botões de ação da lista de produtos |
+| `MatSidenav` | Menu lateral responsivo no shell |
 
 ---
 
