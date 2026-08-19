@@ -39,3 +39,27 @@
   display: inline-block;
   margin-right: 8px;
 }
+
+.ia-sugestao {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--mat-sys-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mat-sys-primary) 25%, transparent);
+
+  .ia-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--mat-sys-primary);
+  }
+
+  .ia-texto {
+    flex: 1;
+    font-size: 13px;
+    color: var(--mat-sys-on-surface);
+  }
+}

@@ -15,16 +15,6 @@
   <mat-card class="form-card">
     <mat-card-content>
       <form [formGroup]="form" class="product-form">
-        <mat-form-field appearance="outline">
-          <mat-label>Código</mat-label>
-          <input matInput formControlName="codigo" placeholder="Ex: P001" />
-          @if (form.get('codigo')?.hasError('required') && form.get('codigo')?.touched) {
-            <mat-error>Código é obrigatório</mat-error>
-          }
-          @if (form.get('codigo')?.hasError('maxlength')) {
-            <mat-error>Máximo 20 caracteres</mat-error>
-          }
-        </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Descrição</mat-label>
@@ -35,12 +25,43 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
+          <mat-label>Código</mat-label>
+          <input matInput formControlName="codigo" placeholder="Ex: P001" />
+          @if (buscandoSugestao()) {
+            <mat-spinner matSuffix diameter="18" />
+          }
+          @if (form.get('codigo')?.hasError('required') && form.get('codigo')?.touched) {
+            <mat-error>Código é obrigatório</mat-error>
+          }
+          @if (form.get('codigo')?.hasError('maxlength')) {
+            <mat-error>Máximo 20 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        @if (sugestaoCodigo()) {
+          <div class="ia-sugestao">
+            <mat-icon class="ia-icon">auto_awesome</mat-icon>
+            <span class="ia-texto">Sugestão IA: <strong>{{ sugestaoCodigo() }}</strong></span>
+            <button
+              mat-stroked-button
+              color="primary"
+              type="button"
+              (click)="usarSugestao()"
+              matTooltip="Aplicar sugestão ao campo Código"
+            >
+              Usar
+            </button>
+          </div>
+        }
+
+        <mat-form-field appearance="outline">
           <mat-label>Saldo em Estoque</mat-label>
           <input matInput type="number" formControlName="saldo" min="0" />
           @if (form.get('saldo')?.hasError('min')) {
             <mat-error>Saldo não pode ser negativo</mat-error>
           }
         </mat-form-field>
+
       </form>
     </mat-card-content>
 
