@@ -23,6 +23,7 @@ packages/
 # Node / Angular
 node_modules/
 dist/
+dist-deploy/
 .angular/
 .cache/
 npm-debug.log*

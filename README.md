@@ -50,32 +50,20 @@ Angular → Faturamento.API → Estoque.API → PostgreSQL
 docker compose up -d
 ```
 
-Aguarde o healthcheck passar (~5s). O PostgreSQL sobe na porta `5432` com os schemas `estoque` e `faturamento` criados automaticamente.
+Aguarde o healthcheck passar (~5s). O PostgreSQL sobe na porta `5432` com os schemas `korp_estoque` e `korp_faturamento` criados automaticamente (via `scripts/init.sql`).
 
-### 2. Aplicar migrations
+### 2. Rodar os microsserviços
 
-```bash
-# Estoque
-cd src/backend/Korp.Estoque/Korp.Estoque.API
-dotnet ef database update
-
-# Faturamento
-cd ../../../Korp.Faturamento/Korp.Faturamento.API
-dotnet ef database update
-```
-
-### 3. Rodar os microsserviços
-
-Em terminais separados:
+As migrations são aplicadas automaticamente na inicialização. Em terminais separados:
 
 ```bash
 # Terminal 1 — Estoque.API (porta 5002)
 cd src/backend/Korp.Estoque/Korp.Estoque.API
-dotnet run
+dotnet run --launch-profile http
 
 # Terminal 2 — Faturamento.API (porta 5001)
 cd src/backend/Korp.Faturamento/Korp.Faturamento.API
-dotnet run
+dotnet run --launch-profile http
 ```
 
 ### 4. Rodar o frontend
@@ -108,9 +96,11 @@ O Faturamento.API usa **Polly** com 3 retries e circuit breaker antes de retorna
 ## Rodar testes
 
 ```bash
-# Testes unitários
-dotnet test tests/Korp.Estoque.UnitTests
-dotnet test tests/Korp.Faturamento.UnitTests
+# Testes unitários — Estoque
+dotnet test src/backend/Korp.Estoque/Korp.Estoque.Tests/
+
+# Testes unitários — Faturamento
+dotnet test src/backend/Korp.Faturamento/Korp.Faturamento.Tests/
 ```
 
 ---
