@@ -1,14 +1,17 @@
 <div class="page-header">
-  <h1 class="page-title">Notas Fiscais</h1>
-  <a mat-fab extended routerLink="nova" color="primary">
+  <div class="page-title-group">
+    <span class="page-label">Faturamento</span>
+    <h1 class="page-title">Notas Fiscais</h1>
+  </div>
+  <a mat-flat-button routerLink="nova" color="primary">
     <mat-icon>add</mat-icon>
-    Nova Nota Fiscal
+    Nova Nota
   </a>
 </div>
 
 @if (loading()) {
   <div class="loading-container">
-    <mat-spinner diameter="48" />
+    <mat-spinner diameter="36" />
   </div>
 } @else if (notas().length === 0) {
   <div class="empty-state">
@@ -20,9 +23,9 @@
   <div class="table-card">
     <table mat-table [dataSource]="notas()" class="w-full">
       <ng-container matColumnDef="numero">
-        <th mat-header-cell *matHeaderCellDef>Número</th>
+        <th mat-header-cell *matHeaderCellDef>Nº</th>
         <td mat-cell *matCellDef="let nota">
-          <strong>{{ nota.numero || '—' }}</strong>
+          <span class="numero-cell">#{{ nota.numero || '—' }}</span>
         </td>
       </ng-container>
 
@@ -37,19 +40,23 @@
 
       <ng-container matColumnDef="itens">
         <th mat-header-cell *matHeaderCellDef>Itens</th>
-        <td mat-cell *matCellDef="let nota">{{ nota.itens.length }}</td>
+        <td mat-cell *matCellDef="let nota" style="color: var(--korp-text-secondary)">
+          {{ nota.itens.length }} {{ nota.itens.length === 1 ? 'item' : 'itens' }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="createdAt">
         <th mat-header-cell *matHeaderCellDef>Criada em</th>
-        <td mat-cell *matCellDef="let nota">{{ nota.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td mat-cell *matCellDef="let nota" style="color: var(--korp-text-muted); font-size: 12px">
+          {{ nota.criadoEm | date: 'dd/MM/yyyy HH:mm' }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="acoes">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let nota">
           <a mat-icon-button [routerLink]="nota.id" matTooltip="Ver detalhes">
-            <mat-icon>chevron_right</mat-icon>
+            <mat-icon style="color: var(--korp-text-muted)">chevron_right</mat-icon>
           </a>
         </td>
       </ng-container>

@@ -1,55 +1,266 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+
+// ── Fonte Inter (mesma do portfólio) ──────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 html {
   height: 100%;
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
-      ),
-      typography: Roboto,
-      density: 0,
-    )
-  );
+  @include mat.theme((
+    color: (
+      primary: mat.$blue-palette,
+      tertiary: mat.$cyan-palette,
+    ),
+    typography: Inter,
+    density: 0,
+  ));
+}
+
+// ── Design tokens (espelhando o portfólio) ────────────────────────────────
+:root {
+  --korp-bg:              #0a0a0a;
+  --korp-surface:         #111111;
+  --korp-surface-raised:  #161616;
+  --korp-border:          #1f1f1f;
+  --korp-border-subtle:   #181818;
+  --korp-border-strong:   #2a2a2a;
+  --korp-text-primary:    #f5f5f5;
+  --korp-text-secondary:  #a3a3a3;
+  --korp-text-muted:      #525252;
+  --korp-accent:          #3b82f6;
+  --korp-accent-hover:    #60a5fa;
+  --korp-accent-dim:      rgba(59, 130, 246, 0.12);
+  --korp-success:         #22c55e;
+  --korp-success-dim:     rgba(34, 197, 94, 0.12);
+  --korp-error:           #ef4444;
+  --korp-shadow-card:     0 0 0 1px rgba(255,255,255,0.03), 0 2px 8px rgba(0,0,0,0.45);
+  --korp-shadow-hover:    0 0 0 1px rgba(59,130,246,0.2), 0 8px 24px rgba(0,0,0,0.55);
+  --korp-radius:          12px;
+  --korp-radius-sm:       8px;
+  --korp-transition:      0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
+  color-scheme: dark;
+  background-color: var(--korp-bg);
+  color: var(--korp-text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
   margin: 0;
   height: 100%;
-}
-* {
-  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
+* { box-sizing: border-box; }
+
+// ── Scrollbar fina (idêntica ao portfólio) ────────────────────────────────
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--korp-border-strong); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--korp-text-muted); }
+
+::selection {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: var(--korp-text-primary);
+}
+
+// ── Override Angular Material para tema dark ──────────────────────────────
+.mat-mdc-card {
+  background-color: var(--korp-surface) !important;
+  border: 1px solid var(--korp-border) !important;
+  border-radius: var(--korp-radius) !important;
+  box-shadow: var(--korp-shadow-card) !important;
+  color: var(--korp-text-primary) !important;
+  transition: border-color var(--korp-transition), box-shadow var(--korp-transition) !important;
+
+  &:hover {
+    border-color: rgba(59, 130, 246, 0.2) !important;
+    box-shadow: var(--korp-shadow-hover) !important;
+  }
+}
+
+.mat-mdc-table {
+  background: transparent !important;
+
+  .mat-mdc-header-row {
+    background: var(--korp-surface-raised) !important;
+  }
+
+  .mat-mdc-header-cell {
+    color: var(--korp-text-muted) !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    border-bottom: 1px solid var(--korp-border) !important;
+  }
+
+  .mat-mdc-row {
+    background: var(--korp-surface) !important;
+    border-bottom: 1px solid var(--korp-border-subtle) !important;
+    transition: background var(--korp-transition) !important;
+
+    &:hover {
+      background: var(--korp-surface-raised) !important;
+    }
+  }
+
+  .mat-mdc-cell {
+    color: var(--korp-text-primary) !important;
+    border-bottom: none !important;
+  }
+}
+
+.mat-mdc-form-field {
+  .mdc-text-field--outlined {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--korp-border-strong) !important;
+    }
+
+    &:not(.mdc-text-field--disabled):hover {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: var(--korp-text-muted) !important;
+      }
+    }
+
+    &.mdc-text-field--focused {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: var(--korp-accent) !important;
+      }
+    }
+  }
+
+  input.mat-mdc-input-element,
+  textarea.mat-mdc-input-element {
+    color: var(--korp-text-primary) !important;
+    caret-color: var(--korp-accent) !important;
+  }
+
+  .mat-mdc-floating-label { color: var(--korp-text-muted) !important; }
+  .mat-mdc-floating-label.mdc-floating-label--float-above { color: var(--korp-accent) !important; }
+  .mat-mdc-select-value { color: var(--korp-text-primary) !important; }
+}
+
+// Botão primário
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary {
+  background-color: var(--korp-accent) !important;
+  color: #fff !important;
+  border-radius: var(--korp-radius-sm) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  transition: background-color var(--korp-transition), transform var(--korp-transition) !important;
+
+  &:hover { background-color: var(--korp-accent-hover) !important; }
+  &:active { transform: scale(0.98) !important; }
+}
+
+// Botão stroked
+.mat-mdc-outlined-button {
+  border-color: var(--korp-border-strong) !important;
+  color: var(--korp-text-secondary) !important;
+  border-radius: var(--korp-radius-sm) !important;
+
+  &:hover {
+    border-color: var(--korp-accent) !important;
+    color: var(--korp-accent) !important;
+    background: var(--korp-accent-dim) !important;
+  }
+}
+
+// Icon button
+.mat-mdc-icon-button {
+  color: var(--korp-text-muted) !important;
+  &:hover { color: var(--korp-text-primary) !important; }
+}
+
+// Dialog
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: var(--korp-surface) !important;
+  border: 1px solid var(--korp-border) !important;
+  border-radius: var(--korp-radius) !important;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.7) !important;
+  color: var(--korp-text-primary) !important;
+}
+
+.mat-mdc-dialog-title { color: var(--korp-text-primary) !important; }
+.mat-mdc-dialog-content { color: var(--korp-text-secondary) !important; }
+
+// Chips / badges de status
+.mat-mdc-chip {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  border-radius: 6px !important;
+  height: 22px !important;
+}
+
+// Snackbar
 .snack-error {
-  --mdc-snackbar-container-color: var(--mat-sys-error-container);
-  --mdc-snackbar-supporting-text-color: var(--mat-sys-on-error-container);
+  --mdc-snackbar-container-color: rgba(239, 68, 68, 0.12);
+  --mdc-snackbar-supporting-text-color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
 }
 
 .snack-warn {
-  --mdc-snackbar-container-color: var(--mat-sys-tertiary-container);
-  --mdc-snackbar-supporting-text-color: var(--mat-sys-on-tertiary-container);
+  --mdc-snackbar-container-color: rgba(234, 179, 8, 0.12);
+  --mdc-snackbar-supporting-text-color: #fde047;
+  border: 1px solid rgba(234, 179, 8, 0.25) !important;
 }
 
-.w-full {
-  width: 100%;
+// Select dropdown panel
+.mat-mdc-select-panel {
+  background: var(--korp-surface-raised) !important;
+  border: 1px solid var(--korp-border-strong) !important;
+  border-radius: var(--korp-radius-sm) !important;
+
+  .mat-mdc-option {
+    color: var(--korp-text-primary) !important;
+    &:hover, &.mat-mdc-option-active { background: var(--korp-accent-dim) !important; }
+  }
+}
+
+// Tooltip
+.mat-mdc-tooltip {
+  background-color: var(--korp-surface-raised) !important;
+  color: var(--korp-text-primary) !important;
+  border: 1px solid var(--korp-border) !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+}
+
+// Sidenav
+.mat-drawer {
+  background-color: var(--korp-surface) !important;
+  border-right: 1px solid var(--korp-border) !important;
+}
+
+.mat-drawer-content {
+  background-color: var(--korp-bg) !important;
+}
+
+// Spinner accent color
+.mat-mdc-progress-spinner circle {
+  stroke: var(--korp-accent) !important;
+}
+
+// Utilitários globais
+.w-full { width: 100%; }
+
+// Animação de entrada de página
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-enter {
+  animation: fadeSlideIn 0.3s var(--korp-transition) both;
 }

@@ -1,57 +1,125 @@
 .shell-container {
   height: 100vh;
   display: flex;
+  background: var(--korp-bg);
 }
 
+// ── Sidenav ───────────────────────────────────────────────────────────────
 .shell-sidenav {
-  width: 240px;
-  border-right: 1px solid var(--mat-sys-outline-variant);
+  width: 220px;
+  background: var(--korp-surface) !important;
+  border-right: 1px solid var(--korp-border) !important;
 
   .sidenav-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 20px 16px 12px;
-    border-bottom: 1px solid var(--mat-sys-outline-variant);
+    gap: 10px;
+    padding: 20px 16px 16px;
+    border-bottom: 1px solid var(--korp-border);
 
     .brand-icon {
-      color: var(--mat-sys-primary);
-      font-size: 28px;
-      width: 28px;
-      height: 28px;
+      color: var(--korp-accent);
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
     }
 
     .brand-name {
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 600;
-      color: var(--mat-sys-on-surface);
+      color: var(--korp-text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--korp-accent);
+      margin-left: auto;
+      box-shadow: 0 0 6px var(--korp-accent);
     }
   }
 
-  .active-link {
-    background-color: var(--mat-sys-secondary-container);
-    color: var(--mat-sys-on-secondary-container);
-    border-radius: 28px;
-
-    mat-icon {
-      color: var(--mat-sys-on-secondary-container);
-    }
+  .sidenav-section-label {
+    padding: 16px 16px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--korp-text-muted);
   }
 }
 
+// Nav items
+::ng-deep .shell-sidenav .mat-mdc-list-item {
+  border-radius: 8px !important;
+  margin: 2px 8px !important;
+  height: 40px !important;
+  color: var(--korp-text-secondary) !important;
+  transition: background var(--korp-transition), color var(--korp-transition) !important;
+
+  .mat-icon { color: inherit !important; font-size: 18px !important; }
+
+  .mdc-list-item__primary-text {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: inherit !important;
+  }
+
+  &:hover {
+    background: var(--korp-surface-raised) !important;
+    color: var(--korp-text-primary) !important;
+  }
+}
+
+::ng-deep .shell-sidenav .active-link {
+  background: var(--korp-accent-dim) !important;
+  color: var(--korp-accent) !important;
+
+  .mat-icon { color: var(--korp-accent) !important; }
+
+  .mdc-list-item__primary-text { color: var(--korp-accent) !important; }
+}
+
+// ── Toolbar ───────────────────────────────────────────────────────────────
 .shell-toolbar {
   position: sticky;
   top: 0;
   z-index: 10;
+  background: rgba(10, 10, 10, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid var(--korp-border) !important;
+  box-shadow: none !important;
+  min-height: 52px !important;
 
   .toolbar-title {
-    margin-left: 8px;
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 500;
+    color: var(--korp-text-secondary);
+    letter-spacing: 0.01em;
+    margin-left: 8px;
+  }
+
+  .toolbar-spacer { flex: 1; }
+
+  .toolbar-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--korp-text-muted);
+    padding: 3px 8px;
+    border: 1px solid var(--korp-border-strong);
+    border-radius: 6px;
+    margin-right: 4px;
   }
 }
 
+// ── Content ───────────────────────────────────────────────────────────────
 .shell-content {
-  padding: 24px;
+  padding: 28px 32px;
   max-width: 1200px;
+  animation: fadeSlideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
 }

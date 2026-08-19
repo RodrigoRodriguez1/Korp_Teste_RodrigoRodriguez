@@ -1,6 +1,9 @@
 <div class="page-header">
-  <h1 class="page-title">Produtos</h1>
-  <a mat-fab extended routerLink="novo" color="primary">
+  <div class="page-title-group">
+    <span class="page-label">Estoque</span>
+    <h1 class="page-title">Produtos</h1>
+  </div>
+  <a mat-flat-button routerLink="novo" color="primary">
     <mat-icon>add</mat-icon>
     Novo Produto
   </a>
@@ -8,12 +11,12 @@
 
 @if (loading()) {
   <div class="loading-container">
-    <mat-spinner diameter="48" />
+    <mat-spinner diameter="36" />
   </div>
 } @else if (produtos().length === 0) {
   <div class="empty-state">
     <mat-icon class="empty-icon">inventory_2</mat-icon>
-    <p>Nenhum produto cadastrado.</p>
+    <p>Nenhum produto cadastrado ainda.</p>
     <a mat-stroked-button routerLink="novo">Cadastrar primeiro produto</a>
   </div>
 } @else {
@@ -21,18 +24,22 @@
     <table mat-table [dataSource]="produtos()">
       <ng-container matColumnDef="codigo">
         <th mat-header-cell *matHeaderCellDef>Código</th>
-        <td mat-cell *matCellDef="let p"><strong>{{ p.codigo }}</strong></td>
+        <td mat-cell *matCellDef="let p">
+          <span style="font-family: monospace; font-size: 12px; color: var(--korp-accent)">{{ p.codigo }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="descricao">
         <th mat-header-cell *matHeaderCellDef>Descrição</th>
-        <td mat-cell *matCellDef="let p">{{ p.descricao }}</td>
+        <td mat-cell *matCellDef="let p" style="color: var(--korp-text-primary)">{{ p.descricao }}</td>
       </ng-container>
 
       <ng-container matColumnDef="saldo">
         <th mat-header-cell *matHeaderCellDef>Saldo</th>
         <td mat-cell *matCellDef="let p">
-          <span [class]="p.saldo === 0 ? 'saldo-zero' : 'saldo-ok'">{{ p.saldo }}</span>
+          <span class="saldo-badge" [class.saldo-ok]="p.saldo > 0" [class.saldo-zero]="p.saldo === 0">
+            {{ p.saldo }}
+          </span>
         </td>
       </ng-container>
 
@@ -42,8 +49,8 @@
           <a mat-icon-button [routerLink]="[p.id, 'editar']" matTooltip="Editar">
             <mat-icon>edit</mat-icon>
           </a>
-          <button mat-icon-button color="warn" (click)="confirmarDelete(p)" matTooltip="Excluir">
-            <mat-icon>delete_outline</mat-icon>
+          <button mat-icon-button (click)="confirmarDelete(p)" matTooltip="Excluir">
+            <mat-icon style="color: var(--korp-error)">delete_outline</mat-icon>
           </button>
         </td>
       </ng-container>
