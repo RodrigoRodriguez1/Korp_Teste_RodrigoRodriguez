@@ -18,7 +18,9 @@ internal sealed class IdempotencyService : IIdempotencyService
     {
         var record = await _context.IdempotencyKeys
             .AsNoTracking()
-            .FirstOrDefaultAsync(k => k.Key == key, cancellationToken);
+            .FirstOrDefaultAsync(
+                k => k.Key == key && k.ExpiresAt > DateTime.UtcNow,
+                cancellationToken);
 
         if (record is null)
             return default;

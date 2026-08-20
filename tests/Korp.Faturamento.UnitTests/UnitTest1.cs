@@ -1,10 +1,8 @@
-﻿namespace Korp.Faturamento.UnitTests;
+namespace Korp.Faturamento.UnitTests;
 
-public class UnitTest1
+// Placeholder — testes reais estão em Application/ e Domain/
+public sealed class PlaceholderTest
 {
     [Fact]
-    public void Test1()
-    {
-
-    }
+    public void Placeholder_ShouldPass() { }
 }

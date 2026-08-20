@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <NoWarn>$(NoWarn);MSB3277</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\backend\Korp.Faturamento\Korp.Faturamento.Application\Korp.Faturamento.Application.csproj" />
     <ProjectReference Include="..\..\src\backend\Korp.Faturamento\Korp.Faturamento.Domain\Korp.Faturamento.Domain.csproj" />
+    <ProjectReference Include="..\..\src\backend\Korp.Faturamento\Korp.Faturamento.Infrastructure\Korp.Faturamento.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

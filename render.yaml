@@ -11,6 +11,8 @@ services:
         value: Production
       - key: ConnectionStrings__DefaultConnection
         sync: false
+      - key: Gemini__ApiKey
+        sync: false
       - key: AllowedOrigins__0
         value: https://korp-teste-rodrigo.pages.dev
       - key: AllowedOrigins__1

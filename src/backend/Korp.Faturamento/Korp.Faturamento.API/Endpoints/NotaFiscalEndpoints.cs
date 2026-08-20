@@ -5,6 +5,7 @@ using Korp.Faturamento.Application.NotasFiscais.Queries.GetAllNotasFiscais;
 using Korp.Faturamento.Application.NotasFiscais.Queries.GetNotaFiscalById;
 using Korp.SharedKernel.Results;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Korp.Faturamento.API.Endpoints;
@@ -20,8 +21,14 @@ public static class NotaFiscalEndpoints
         group.MapPost("/", Create);
         group.MapPost("/{id:guid}/imprimir", Imprimir);
 
-        // Endpoint de demo: força falha no circuit breaker do Estoque
-        app.MapPost("/internal/simular-falha", SimularFalha)
+        // Endpoint de demo: desabilitado em produção (feature do challenge técnico)
+        app.MapPost("/internal/simular-falha", (IWebHostEnvironment env) =>
+            env.IsProduction()
+                ? Results.NotFound()
+                : Results.Problem(
+                    detail: "Endpoint de simulação de falha ativado para demo do circuit breaker.",
+                    statusCode: 503,
+                    title: "Serviço indisponível (simulado)"))
             .WithTags("Demo / Testes");
     }
 
@@ -71,12 +78,6 @@ public static class NotaFiscalEndpoints
             ? Results.Ok(result.Value)
             : ToProblem(result.Error);
     }
-
-    private static IResult SimularFalha() =>
-        Results.Problem(
-            detail: "Endpoint de simulação de falha ativado para demo do circuit breaker.",
-            statusCode: 503,
-            title: "Serviço indisponível (simulado)");
 
     private static IResult ToProblem(Error error) => error.Type switch
     {

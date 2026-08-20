@@ -6,6 +6,8 @@ namespace Korp.Faturamento.Infrastructure.Persistence.Repositories;
 
 internal sealed class NotaFiscalRepository : INotaFiscalRepository
 {
+    private const string NumeroSequenceName = "korp_faturamento.nota_fiscal_numero_seq";
+
     private readonly FaturamentoDbContext _context;
 
     public NotaFiscalRepository(FaturamentoDbContext context)
@@ -28,7 +30,7 @@ internal sealed class NotaFiscalRepository : INotaFiscalRepository
     public async Task<int> GetNextNumeroAsync(CancellationToken cancellationToken = default)
     {
         var result = await _context.Database
-            .SqlQueryRaw<long>("SELECT nextval('korp_faturamento.nota_fiscal_numero_seq') AS \"Value\"")
+            .SqlQueryRaw<long>($"SELECT nextval('{NumeroSequenceName}') AS \"Value\"")
             .FirstAsync(cancellationToken);
         return (int)result;
     }

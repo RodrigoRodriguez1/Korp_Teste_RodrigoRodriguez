@@ -24,5 +24,12 @@ internal sealed class IdempotencyKeyConfiguration : IEntityTypeConfiguration<Ide
         builder.Property(k => k.CreatedAt)
             .HasColumnName("created_at")
             .IsRequired();
+
+        builder.Property(k => k.ExpiresAt)
+            .HasColumnName("expires_at")
+            .IsRequired();
+
+        builder.HasIndex(k => k.ExpiresAt)
+            .HasDatabaseName("idx_idempotency_keys_expires_at");
     }
 }
